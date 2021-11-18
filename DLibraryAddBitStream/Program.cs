@@ -13,12 +13,13 @@ namespace DLibraryAddBitStream
     {
         static OdbcConnection con1 = new OdbcConnection("Driver=Sybase ASE ODBC Driver;SRVR=production;DB=kfnl;UID=sa;PWd=sybase1;");
         static NpgsqlConnection pgconn = new NpgsqlConnection("Host=192.168.1.178;Username=dspace;Password=dspace;Database=dspace");
-        static string dublin_core = "dublin_core.xml";
-        static string contents = "contents";
+        static readonly string dublin_core = "dublin_core.xml";
+        static readonly string contents = "contents";
         static void Main(string[] args)
         {
-            new Program().addDLPolicy();
-            Console.ReadKey();
+            // new Program().addDLPolicy();
+            //Console.ReadKey();
+            new Program().addFullTextFile();
         }
 
 
@@ -112,7 +113,7 @@ namespace DLibraryAddBitStream
         public void addFullTextFile()
         {
             // string sourceFolderPath = @"\\192.168.1.112\مشروع المكتبة الرقمية\أعمال المعالجة\مقالات تم رقعها\splited_final\";
-            string distFolderName = @"H:\DLMigrate\DLBooks_19_05_2020\Full\";
+            string distFolderName = @"H:\DLMigrate\DLKingSlamnImages_10_11_2021\Full\";
             string distSubFolderName = @"\1";
             //string pathString = System.IO.Path.Combine(distFolderName, "SubFolder");
             try
@@ -120,7 +121,7 @@ namespace DLibraryAddBitStream
                 con1.Open();
                 pgconn.Open();
 
-                OdbcCommand commandItem2 = new OdbcCommand(@"select * from dlibrarybibsnofound_19_05_2020", con1);
+                OdbcCommand commandItem2 = new OdbcCommand(@"select * from tempKingSalman_10_11_2021 ", con1);
 
                 DataSet resultsItem2 = new DataSet();
                 OdbcDataAdapter usersAdapterItem2 = new OdbcDataAdapter(commandItem2);
@@ -231,7 +232,7 @@ namespace DLibraryAddBitStream
             NpgsqlCommand command = new NpgsqlCommand("select dspace_object_id from public.metadatavalue where  metadata_field_id =190 and text_value = @p", pgconn);
             command.Parameters.AddWithValue("p", bibNo);
             string url = "";
-
+            Console.WriteLine("bib# = {0}",bibNo);
             DataSet resultsItem1 = new DataSet();
             NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command);
             adapter.Fill(resultsItem1);
@@ -276,7 +277,7 @@ namespace DLibraryAddBitStream
                 text = fileName + "\tbundle: ORIGINAL\tdescription:جدول المحتويات"; 
             if (!System.IO.File.Exists(distFolder + contents))
             {
-
+                text = fileName + "\tbundle: ORIGINAL\tdescription:الغلاف";
                 System.IO.File.WriteAllText(distFolder + contents, text + "\n");
             }
             else
@@ -302,6 +303,11 @@ namespace DLibraryAddBitStream
             {
                 System.IO.File.Copy(path, pathString + fileName.ToLower(), true);
                 createContents(fileName.ToLower(), pathString, FileType.Content);
+            }
+            else if (fileName.ToLower().Contains("-cov"))
+            {
+                System.IO.File.Copy(path, pathString + fileName.ToLower(), true);
+                createContents(fileName.ToLower(), pathString, FileType.Cover);
             }
             else
             {
