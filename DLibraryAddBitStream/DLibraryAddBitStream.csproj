@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>\\hki6341\sssss\</UpdateUrl>
-    <ApplicationRevision>100</ApplicationRevision>
+    <ApplicationRevision>109</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -52,10 +52,10 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>31B1C9A4EB47AFE08FDC604E902DAD5888B23761</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>18716CB2520AE41E152E2536558E823147EF027B</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>DLibraryAddBitStream_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>DLibraryAddBitStream_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -114,6 +114,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="DLibraryAddBitStream_1_TemporaryKey.pfx" />
+    <None Include="DLibraryAddBitStream_2_TemporaryKey.pfx" />
     <None Include="DLibraryAddBitStream_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>

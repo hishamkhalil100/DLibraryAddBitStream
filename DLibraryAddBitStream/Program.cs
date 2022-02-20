@@ -18,102 +18,16 @@ namespace DLibraryAddBitStream
         static void Main(string[] args)
         {
             // new Program().addDLPolicy();
-            //Console.ReadKey();
-            new Program().addFullTextFile();
+            Console.ReadKey();
+            //new Program().addFullTextFile();
         }
 
 
-        //public void addCoverFile()
-        //{
-        //    // string sourceFolderPath = @"\\192.168.1.112\مشروع المكتبة الرقمية\أعمال المعالجة\مقالات تم رقعها\splited_final\";
-        //    string distFolderName = @"C:\DLMigrate\DLDEPTTCD_AHLAM";
-        //    string distSubFolderName = @"\1";
-        //    //string pathString = System.IO.Path.Combine(distFolderName, "SubFolder");
-        //    try
-        //    {
-        //        con1.Open();
-        //        pgconn.Open();
-
-        //        OdbcCommand commandItem2 = new OdbcCommand(@"select bib#,FileName, filePath from DLDEPTTCD_AHLAM ", con1);
-
-        //        DataSet resultsItem2 = new DataSet();
-        //        OdbcDataAdapter usersAdapterItem2 = new OdbcDataAdapter(commandItem2);
-        //        usersAdapterItem2.Fill(resultsItem2);
-        //        DataTable dtItem2 = resultsItem2.Tables[0];
-        //        int count = 1;
-        //        int subfile = 1;
-        //        foreach (DataRow rowItem2 in dtItem2.Rows)
-        //        {
-
-        //            if (count == 1000)
-        //            {
-        //                distSubFolderName = @"\" + subfile;
-        //                count = 1;
-        //                subfile++;
-        //            }
-        //            Console.WriteLine("working on bib# = " + rowItem2["bib#"]);
-        //            string pathString = System.IO.Path.Combine(distFolderName + distSubFolderName, rowItem2["bib#"].ToString()) + "\\";
-        //            if (!System.IO.Directory.Exists(pathString))
-        //            {
-        //                System.IO.Directory.CreateDirectory(pathString);
-
-        //            }
-        //            else
-        //            {
-        //                try
-        //                {
-        //                    count++;
-        //                    string path = rowItem2["filePath"].ToString().ToLower() + @"\" + rowItem2["filename"].ToString().ToLower();
-        //                    Encoding utf8 = Encoding.GetEncoding("Windows-1252");
-
-        //                    Console.WriteLine(path);
-        //                    System.IO.File.Copy(path, pathString + rowItem2["filename"].ToString().ToLower(), true);
-        //                    System.IO.File.Move(pathString + rowItem2["filename"].ToString().ToLower(), pathString + rowItem2["filename"].ToString().ToLower().Replace(".pdf", "-FullText.pdf"));
-        //                    System.IO.File.Delete(pathString + rowItem2["filename"].ToString().ToLower());
-        //                    createContents(rowItem2["filename"].ToString().ToLower().Replace(".pdf", "-FullText.pdf"), pathString);
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    Console.WriteLine("-------- error : {0}", ex.Message);
-        //                }
-        //                continue;
-        //            }
-        //            try
-        //            {
-        //                count++;
-        //                string path = rowItem2["filePath"].ToString().ToLower() + @"\" + rowItem2["filename"].ToString().ToLower();
-
-        //                Console.WriteLine(path);
-        //                System.IO.File.Copy(path, pathString + rowItem2["filename"].ToString().ToLower(), true);
-        //                System.IO.File.Move(pathString + rowItem2["filename"].ToString(), pathString + rowItem2["filename"].ToString().ToLower().Replace(".pdf", "-FullText.pdf"));
-        //                System.IO.File.Delete(pathString + rowItem2["filename"].ToString().ToLower());
-        //                createDublincCore(rowItem2["bib#"].ToString(), pathString);
-        //                createContents(rowItem2["filename"].ToString().ToLower().Replace(".pdf", "-FullText.pdf"), pathString);
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                Console.WriteLine("-------- error : {0}", ex.Message);
-        //            }
-        //            count++;
-        //        }
-        //        Console.ReadKey();
-        //    }
-
-
-
-        //    finally
-        //    {
-        //        con1.Close();
-        //        con1.Dispose();
-        //        pgconn.Close();
-        //        pgconn.Dispose();
-        //    }
-        //    //bibCheckInDSpace();
-        //}
+   
         public void addFullTextFile()
         {
             // string sourceFolderPath = @"\\192.168.1.112\مشروع المكتبة الرقمية\أعمال المعالجة\مقالات تم رقعها\splited_final\";
-            string distFolderName = @"H:\DLMigrate\DLKingSlamnImages_10_11_2021\Full\";
+            string distFolderName = @"H:\DLMigrate\DLCover_08_02_2022\Cover\";
             string distSubFolderName = @"\1";
             //string pathString = System.IO.Path.Combine(distFolderName, "SubFolder");
             try
@@ -121,7 +35,7 @@ namespace DLibraryAddBitStream
                 con1.Open();
                 pgconn.Open();
 
-                OdbcCommand commandItem2 = new OdbcCommand(@"select * from tempKingSalman_10_11_2021 ", con1);
+                OdbcCommand commandItem2 = new OdbcCommand(@"select * from tempDlCoversFromAbst", con1);
 
                 DataSet resultsItem2 = new DataSet();
                 OdbcDataAdapter usersAdapterItem2 = new OdbcDataAdapter(commandItem2);
@@ -191,12 +105,9 @@ namespace DLibraryAddBitStream
             //string pathString = System.IO.Path.Combine(distFolderName, "SubFolder");
             try
             {
-
                 pgconn.Open();
 
-
-
-                NpgsqlCommand commandItem2 = new NpgsqlCommand(@"select distinct(DSPACE_OBJECT) from tempaddedpolicy", pgconn);
+                NpgsqlCommand commandItem2 = new NpgsqlCommand(@"select distinct(uuid) from tempaddedpolicy", pgconn);
 
                 DataSet resultsItem2 = new DataSet();
                 NpgsqlDataAdapter usersAdapterItem2 = new NpgsqlDataAdapter(commandItem2);
@@ -207,7 +118,7 @@ namespace DLibraryAddBitStream
                 {
 
                     count++;
-                    var cmd = new NpgsqlCommand("INSERT INTO public.resourcepolicy(policy_id, resource_type_id, action_id, epersongroup_id, dspace_object) VALUES((select nextval ('public.resourcepolicy_seq')),0,0,'21204304-c627-4963-8d0d-493f34c53bc8',@p); ", pgconn);
+                    var cmd = new NpgsqlCommand("INSERT INTO public.resourcepolicy(policy_id, resource_type_id, action_id, epersongroup_id, dspace_object) VALUES((select nextval ('public.resourcepolicy_seq')),0,0,'a2a0baf1-3649-4d42-b80e-0b28551b3317',@p); ", pgconn);
 
                     cmd.Parameters.AddWithValue("p", rowItem2[0]);
                     cmd.ExecuteNonQuery();
@@ -236,6 +147,7 @@ namespace DLibraryAddBitStream
             DataSet resultsItem1 = new DataSet();
             NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command);
             adapter.Fill(resultsItem1);
+            Console.WriteLine("fill");
             DataTable dtItem = resultsItem1.Tables[0];
             foreach (DataRow rowItem in dtItem.Rows)
             {
@@ -304,17 +216,19 @@ namespace DLibraryAddBitStream
                 System.IO.File.Copy(path, pathString + fileName.ToLower(), true);
                 createContents(fileName.ToLower(), pathString, FileType.Content);
             }
-            else if (fileName.ToLower().Contains("-cov"))
+            else if (fileName.ToLower().Contains("-cov") || fileName.ToLower().Contains(".png") || fileName.ToLower().Contains(".jpg"))
             {
                 System.IO.File.Copy(path, pathString + fileName.ToLower(), true);
-                createContents(fileName.ToLower(), pathString, FileType.Cover);
+                System.IO.File.Move(pathString + fileName.ToLower(), pathString + "cover.png");
+                System.IO.File.Delete(pathString + fileName.ToLower());
+                createContents("cover.png", pathString, FileType.Cover);
             }
             else
             {
                 System.IO.File.Copy(path, pathString + fileName.ToLower(), true);
-                System.IO.File.Move(pathString + fileName.ToLower(), pathString + fileName.ToLower().Replace(".pdf", "-FullText.pdf"));
+                System.IO.File.Move(pathString + fileName.ToLower(), pathString + fileName.ToLower().Replace(".pdf", "-con.pdf"));
                 System.IO.File.Delete(pathString + fileName.ToLower());
-                createContents(fileName.ToLower().Replace(".pdf", "-FullText.pdf"), pathString, FileType.FullText);
+                createContents(fileName.ToLower().Replace(".pdf", "-con.pdf"), pathString, FileType.Content);
             }
         }
 
